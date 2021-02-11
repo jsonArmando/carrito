@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.carrito.compras.app.entity.Factura;
 import com.carrito.compras.app.entity.Productos;
 
 @Repository
@@ -33,10 +34,10 @@ public class ProductosDaoImpl implements IProductoDao{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Productos> findRangePrices(Integer priceMin, Integer priceMax) {
-		Query query = em.createQuery("SELECT u FROM Productos u WHERE u.precio BETWEEN u.precioMin AND u.precioMax");
-		query.setParameter("precioMin", priceMin);
-		query.setParameter("precioMax", priceMax);
+	public List<Productos> findRangePrices(Long priceMin, Long priceMax) {
+		Query query = em.createQuery("SELECT u FROM Productos u WHERE u.precio BETWEEN :priceMin AND :priceMax");
+		query.setParameter("priceMin", priceMin);
+		query.setParameter("priceMax", priceMax);
 		List<Productos> resultList = query.getResultList();
 		resultList.forEach(System.out::println);
 		em.close();
@@ -46,8 +47,33 @@ public class ProductosDaoImpl implements IProductoDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Productos> findName(String nombre) {
-		List<Productos> resultList = em.createQuery("SELECT u FROM Productos u WHERE u.nombre LIKE '%nombre%'").setParameter("nombre", nombre).getResultList();
+		System.out.println("-- Productos name LIKE D% --");
+		List<Productos> resultList = em.createQuery("SELECT u FROM Productos u WHERE u.nombre LIKE :nombre").setParameter("nombre", "%"+nombre+"%").getResultList();
 		return resultList;
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Productos findOne(Long id) {
+		return em.find(Productos.class, id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteLong(Long id) {
+		Productos productos = findOne(id);
+		em.remove(productos);	
+	}
+
+	@Override
+	@Transactional
+	public void save(Factura factura) {
+		if (factura.getId() != null && factura.getId() > 0) {
+			em.merge(factura);
+		}else {
+			em.persist(factura);
+		}
+		
 	}
 
 }

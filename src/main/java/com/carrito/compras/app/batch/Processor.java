@@ -17,8 +17,8 @@ public class Processor implements ItemProcessor<Productos, Productos>{
             new HashMap<>();
 
     public Processor() {
-    	DEPT_ESTADO.put("Nuevo", "New");
-    	DEPT_ESTADO.put("Usado", "Used");
+    	DEPT_ESTADO.put("Nuevo", "Nuevo");
+    	DEPT_ESTADO.put("Usado", "Usado");
     }
     
 	@Override

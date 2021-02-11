@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,13 +17,33 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.sun.istack.NotNull;
 
 @Entity
-@Table(name = "productos")
-public class Productos implements Serializable{
+@Table(name = "factura")
+public class Factura implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	public Factura() {
+	}
+	
+	public Factura(Long id, String nombre, String marca, Long precio, Long cantidad, String estado, Integer porcentaje,
+			Long precioTotal, Date createAt) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.marca = marca;
+		this.precio = precio;
+		this.cantidad = cantidad;
+		this.estado = estado;
+		this.porcentaje = porcentaje;
+		this.precioTotal = precioTotal;
+		this.createAt = createAt;
+	}
+
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -34,34 +53,13 @@ public class Productos implements Serializable{
 	private Long cantidad;
 	private String estado;
 	private Integer porcentaje;
+	private Long precioTotal;
 	@NotNull
 	@Column(name = "create_at")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
-	
-	
-	
-	public Productos(Long id, String nombre, String marca, Long precio, Long cantidad, String estado,
-			Integer porcentaje, Date createAt) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.marca = marca;
-		this.precio = precio;
-		this.cantidad = cantidad;
-		this.estado = estado;
-		this.porcentaje = porcentaje;
-		this.createAt = createAt;
-	}
-	
-	public Productos() {
-	}
 
-	@PrePersist
-	public void prePersit() {
-		createAt = new Date();
-	}
 	public Long getId() {
 		return id;
 	}
@@ -80,15 +78,12 @@ public class Productos implements Serializable{
 	public void setMarca(String marca) {
 		this.marca = marca;
 	}
-
 	public Long getPrecio() {
 		return precio;
 	}
-
 	public void setPrecio(Long precio) {
 		this.precio = precio;
 	}
-
 	public Long getCantidad() {
 		return cantidad;
 	}
@@ -107,18 +102,25 @@ public class Productos implements Serializable{
 	public void setPorcentaje(Integer porcentaje) {
 		this.porcentaje = porcentaje;
 	}
+	public Long getPrecioTotal() {
+		return precioTotal;
+	}
+	public void setPrecioTotal(Long precioTotal) {
+		this.precioTotal = precioTotal;
+	}
 	public Date getCreateAt() {
 		return createAt;
 	}
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
 	}
-
 	@Override
 	public String toString() {
-		return "Productos [id=" + id + ", nombre=" + nombre + ", marca=" + marca + ", precio=" + precio + ", cantidad="
-				+ cantidad + ", estado=" + estado + ", porcentaje=" + porcentaje + ", createAt=" + createAt + "]";
+		return "Factura [id=" + id + ", nombre=" + nombre + ", marca=" + marca + ", precio=" + precio + ", cantidad="
+				+ cantidad + ", estado=" + estado + ", porcentaje=" + porcentaje + ", precioTotal=" + precioTotal
+				+ ", createAt=" + createAt + "]";
 	}
 	
 	
+
 }

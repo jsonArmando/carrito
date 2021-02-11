@@ -43,10 +43,10 @@
 							<tr>
 								<th class="text-success">Nombre</th>
 								<th class="text-success">Marca</th>
-								<th class="text-success">Precio</th>
+								<th class="text-success">Precio($)</th>
 								<th class="text-success">Cantidad</th>
 								<th class="text-success">Estado</th>
-								<th class="text-success">Porcentaje</th>
+								<th class="text-success">Porcentaje(%)</th>
 								<th class="text-success">Fecha Registro</th>
 							</tr>
 						</thead>
@@ -54,19 +54,14 @@
 							<tr th:each="producto: ${productos}">
 								<th th:text="${producto.nombre}"></th>
 								<th th:text="${producto.marca}"></th>
-								<th th:text="${producto.precio}"></th>
+								<th th:text="${#numbers.formatDecimal(producto.precio, 0, 'COMMA', 2, 'POINT')}"></th>
 								<th th:text="${producto.cantidad}"></th>
 								<th th:text="${producto.estado}"></th>
-								<th th:text="${producto.porcentaje}"></th>
+								<th th:text="${#numbers.formatDecimal(producto.porcentaje, 0, 'COMMA', 2, 'POINT')}"></th>
 								<th th:text="${producto.createAt}"></th>
 							</tr>
 						</tbody>
 					</table>
-			<div class="form-group row">
-				<div class="col-sm-6">
-					<input type="submit" value="Procesar" class="btn btn-primary" />
-				</div>
-			</div>
 		</div>
 
 		<script
